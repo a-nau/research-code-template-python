@@ -1,0 +1,26 @@
+name: Continuous Integration
+on: 
+  push: 
+  pull_request:
+  schedule:
+    - cron:  "0 3 * * 1" # Run every Monday 3 am
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install package
+        run: python -m pip install .
+
+      - name: Run black check
+        run: black --check .
+
+      - name: Run tests
+        run: pytest
